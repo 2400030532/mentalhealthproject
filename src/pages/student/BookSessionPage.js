@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import Calendar from '../../components/Calendar';
@@ -25,12 +25,7 @@ const BookSessionPage = () => {
     '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'
   ];
 
-  useEffect(() => {
-    loadTherapists();
-    loadBookedDates();
-  }, []);
-
-  const loadTherapists = async () => {
+  const loadTherapists = useCallback(async () => {
     try {
       const response = await therapistsApi.getAll();
       setTherapists(response.data);
@@ -39,9 +34,9 @@ const BookSessionPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  const loadBookedDates = async () => {
+  const loadBookedDates = useCallback(async () => {
     try {
       const response = await sessionsApi.getAll();
       const booked = response.data
@@ -51,8 +46,12 @@ const BookSessionPage = () => {
     } catch (error) {
       // Silent fail
     }
-  };
+  }, []);
 
+  useEffect(() => {
+    loadTherapists();
+    loadBookedDates();
+  }, [loadTherapists, loadBookedDates]);
   const handleTherapistSelect = (therapist) => {
     setSelectedTherapist(therapist);
     setShowModal(true);

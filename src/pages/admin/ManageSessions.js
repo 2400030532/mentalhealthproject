@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import Modal from '../../components/Modal';
@@ -20,19 +20,7 @@ const ManageSessions = () => {
     zoomLink: ''
   });
 
-  useEffect(() => {
-    loadSessions();
-  }, []);
-
-  useEffect(() => {
-    if (statusFilter === 'all') {
-      setFilteredSessions(sessions);
-    } else {
-      setFilteredSessions(sessions.filter(s => s.status === statusFilter));
-    }
-  }, [statusFilter, sessions]);
-
-  const loadSessions = async () => {
+  const loadSessions = useCallback(async () => {
     try {
       const response = await sessionsApi.getAll();
       setSessions(response.data);
@@ -42,7 +30,21 @@ const ManageSessions = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    loadSessions();
+  }, [loadSessions]);
+
+  useEffect(() => {
+    if (statusFilter === 'all') {
+      setFilteredSessions(sessions);
+    } else {
+      setFilteredSessions(sessions.filter(s => s.status === statusFilter));
+    }
+  }, [statusFilter, sessions]);
+
+  
 
   const handleOpenModal = (session) => {
     setSelectedSession(session);

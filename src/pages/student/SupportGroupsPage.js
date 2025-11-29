@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { supportGroupsApi } from '../../api/mockApi';
@@ -13,11 +13,7 @@ const SupportGroupsPage = () => {
   const [loading, setLoading] = useState(true);
   const [joining, setJoining] = useState(null);
 
-  useEffect(() => {
-    loadGroups();
-  }, []);
-
-  const loadGroups = async () => {
+  const loadGroups = useCallback(async () => {
     try {
       const response = await supportGroupsApi.getAll();
       // Ensure Stress Management Group (id: '2') always has the Telegram link
@@ -36,7 +32,11 @@ const SupportGroupsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    loadGroups();
+  }, [loadGroups]);
 
   const handleJoinGroup = async (groupId) => {
     // Check if this is the Stress Management Group (id: '2')

@@ -2,14 +2,12 @@ import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
-import { resourcesApi } from '../../api/mockApi';
-import { useToast } from '../../context/ToastContext';
+// removed unused imports
 import './QuizResultsPage.css';
 
 const QuizResultsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { showToast } = useToast();
   const result = location.state?.result;
 
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { resourcesApi } from '../../api/mockApi';
@@ -12,19 +12,15 @@ const ResourcesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const { showToast } = useToast();
 
-  useEffect(() => {
-    loadResources();
-  }, []);
-
-  useEffect(() => {
+  const loadResources = useCallback(async () => {
     if (selectedCategory === 'all') {
       setFilteredResources(resources);
     } else {
       setFilteredResources(resources.filter(r => r.category === selectedCategory));
     }
   }, [selectedCategory, resources]);
-
-  const loadResources = async () => {
+  
+  const loadResourcesFetch = useCallback(async () => {
     try {
       const response = await resourcesApi.getAll();
       setResources(response.data);
@@ -34,7 +30,11 @@ const ResourcesPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    loadResourcesFetch();
+  }, [loadResourcesFetch]);
 
   const categories = ['all', ...new Set(resources.map(r => r.category))];
 

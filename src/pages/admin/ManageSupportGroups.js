@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import Modal from '../../components/Modal';
@@ -21,11 +21,7 @@ const ManageSupportGroups = () => {
     status: 'active'
   });
 
-  useEffect(() => {
-    loadGroups();
-  }, []);
-
-  const loadGroups = async () => {
+  const loadGroups = useCallback(async () => {
     try {
       const response = await supportGroupsApi.getAll();
       setGroups(response.data);
@@ -34,7 +30,11 @@ const ManageSupportGroups = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    loadGroups();
+  }, [loadGroups]);
 
   const handleOpenModal = (group = null) => {
     if (group) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { sessionsApi } from '../../api/mockApi';
@@ -12,11 +12,7 @@ const ApprovedSessionsPage = () => {
   const [approvedSessions, setApprovedSessions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadApprovedSessions();
-  }, []);
-
-  const loadApprovedSessions = async () => {
+  const loadApprovedSessions = useCallback(async () => {
     try {
       const response = await sessionsApi.getByStudentId(user.id);
       let approved = (response.data || [])
@@ -44,7 +40,11 @@ const ApprovedSessionsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user.id, showToast]);
+
+  useEffect(() => {
+    loadApprovedSessions();
+  }, [loadApprovedSessions]);
 
   const handleJoinZoom = (session) => {
     if (session.zoomLink) {

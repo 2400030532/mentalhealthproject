@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import Modal from '../../components/Modal';
@@ -21,11 +21,7 @@ const ManageResources = () => {
     author: ''
   });
 
-  useEffect(() => {
-    loadResources();
-  }, []);
-
-  const loadResources = async () => {
+  const loadResources = useCallback(async () => {
     try {
       const response = await resourcesApi.getAll();
       setResources(response.data);
@@ -34,7 +30,11 @@ const ManageResources = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
+
+  useEffect(() => {
+    loadResources();
+  }, [loadResources]);
 
   const handleOpenModal = (resource = null) => {
     if (resource) {

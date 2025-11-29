@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import Modal from '../../components/Modal';
@@ -25,12 +25,7 @@ const ManageQuiz = () => {
     ]
   });
 
-  useEffect(() => {
-    loadQuestions();
-    loadStats();
-  }, []);
-
-  const loadQuestions = async () => {
+  const loadQuestions = useCallback(async () => {
     try {
       const response = await quizApi.getQuestions();
       setQuestions(response.data);
@@ -39,16 +34,21 @@ const ManageQuiz = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  const loadStats = async () => {
+  const loadStats = useCallback(async () => {
     try {
       const response = await quizApi.getStats();
       setStats(response.data);
     } catch (error) {
       // Silent fail for stats
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadQuestions();
+    loadStats();
+  }, [loadQuestions, loadStats]);
 
   const handleOpenModal = (question = null) => {
     if (question) {
