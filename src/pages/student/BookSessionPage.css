@@ -1,0 +1,130 @@
+.therapists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.therapist-card {
+  background-color: var(--white);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.therapist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px var(--shadow-hover);
+}
+
+.therapist-avatar {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.therapist-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.therapist-specialization {
+  font-size: 16px;
+  color: var(--primary-blue);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.therapist-experience {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.therapist-bio {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.therapist-availability {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 12px;
+  background-color: var(--calm-gray);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.booking-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.time-slot {
+  padding: 12px;
+  border: 2px solid var(--calm-gray-dark);
+  background-color: var(--white);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.time-slot:hover {
+  border-color: var(--primary-blue);
+  background-color: var(--primary-blue-light);
+  color: var(--white);
+}
+
+.time-slot.selected {
+  border-color: var(--primary-blue);
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.booking-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid var(--calm-gray-dark);
+}
+
+@media (max-width: 768px) {
+  .therapists-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .time-slots {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .booking-actions {
+    flex-direction: column;
+  }
+
+  .booking-actions button {
+    width: 100%;
+  }
+}
+

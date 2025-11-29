@@ -1,0 +1,46 @@
+.sessions-table {
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.sessions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sessions-table thead {
+  background-color: var(--calm-gray);
+}
+
+.sessions-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sessions-table td {
+  padding: 16px;
+  border-top: 1px solid var(--calm-gray-dark);
+  color: var(--text-secondary);
+}
+
+.sessions-table tbody tr:hover {
+  background-color: var(--calm-gray);
+}
+
+@media (max-width: 768px) {
+  .sessions-table {
+    overflow-x: auto;
+  }
+
+  .sessions-table table {
+    min-width: 600px;
+  }
+}
+
