@@ -12,7 +12,8 @@ const ResourcesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const { showToast } = useToast();
 
-  const loadResources = useCallback(async () => {
+  // Update filteredResources when category or resources change
+  useEffect(() => {
     if (selectedCategory === 'all') {
       setFilteredResources(resources);
     } else {
